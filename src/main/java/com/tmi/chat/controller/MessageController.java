@@ -20,8 +20,9 @@ public class MessageController {
     private final MessageService messageService;
     private final SimpMessageSendingOperations sendingOperations;
 
-    @MessageMapping("/message") // prefix : /pub -> /pub/message
+    @MessageMapping("/message") // prefix : /app -> /app/message
     public void sendMessage(MessageDto message) {
+        log.info("message : {}", message);
         MessageDto messageDto = messageService.messageType(message);
         sendingOperations.convertAndSend("/topic/chat/room/"+messageDto.getRoomId(),message);
     }
